@@ -1,0 +1,126 @@
+body {
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  }
+
+  .navbar {
+    background-color: #0d6efd;
+  }
+
+  .navbar-brand {
+    color: white !important;
+    font-weight: bold;
+  }
+
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .product-table {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #cfe2ff;
+    z-index: 10;
+  }
+
+  .table img {
+    width: 60px;
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+
+  .table img:hover {
+    transform: scale(1.1);
+  }
+
+  .btn {
+    margin-right: 4px;
+  }
+
+  .search-bar {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  td:nth-child(4) {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 768px) {
+    .header-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn-float {
+      display: inline-block;
+    }
+  }
+
+  .modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translateY(-20px);
+  }
+
+  .modal.show .modal-dialog {
+    transform: translateY(0);
+  }
+
+  .btn-float {
+    display: none;
+  }
+
+  /* Estilo base das setas */
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 3rem;
+    height: 3rem;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  /* Seta para esquerda */
+  .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 010 .708L6.707 7l4.647 4.646a.5.5 0 01-.708.708l-5-5a.5.5 0 010-.708l5-5a.5.5 0 01.708 0z'/%3E%3C/svg%3E");
+  }
+  
+  /* Seta para direita */
+  .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 000 .708L9.293 7l-4.647 4.646a.5.5 0 00.708.708l5-5a.5.5 0 000-.708l-5-5a.5.5 0 00-.708 0z'/%3E%3C/svg%3E");
+  }
+
+  .footer-fixo {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa; /* cor clara padrão do Bootstrap */
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    font-size: 0.9rem;
+    z-index: 999;
+  }
+
+  .footer-dinamico {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 12px 0;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  

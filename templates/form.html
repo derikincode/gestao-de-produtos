@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ 'Editar' if produto else 'Cadastrar' }} Produto - CAMB</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('index') }}">CAMB • Gestão de Produtos</a>
+  </div>
+</nav>
+
+<div class="container-fluid px-3 px-md-5">
+  <div class="form-container">
+    <h4 class="text-center mb-4">{{ 'Editar' if produto else 'Cadastrar' }} Produto</h4>
+
+    <form method="POST" enctype="multipart/form-data" novalidate>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="nome" name="nome" value="{{ produto[1] if produto else '' }}" placeholder="Nome do Produto" required>
+            <label for="nome"><i class="fa-solid fa-box"></i> Nome do Produto</label>
+            <div class="invalid-feedback">Por favor, informe o nome do produto.</div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="codigo" name="codigo" value="{{ produto[2] if produto else '' }}" placeholder="Código do Produto" required>
+            <label for="codigo"><i class="fa-solid fa-barcode"></i> Código</label>
+            <div class="invalid-feedback">Por favor, informe o código do produto.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="form-floating">
+          <textarea class="form-control" id="descricao" name="descricao" style="height: 100px;" placeholder="Descrição do Produto" required>{{ produto[3] if produto else '' }}</textarea>
+          <label for="descricao"><i class="fa-solid fa-align-left"></i> Descrição</label>
+          <div class="invalid-feedback">Por favor, informe a descrição do produto.</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="fotos" class="form-label"><i class="fa-solid fa-images"></i> Fotos do Produto</label>
+        {% if produto and produto[4] %}
+          {% set imagens = produto[4].split(',') %}
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            {% for imagem in imagens %}
+              <img src="{{ url_for('static', filename='uploads/' + imagem) }}" class="img-thumbnail" style="width: 120px;" alt="Imagem atual do produto">
+            {% endfor %}
+          </div>
+        {% endif %}
+        <input type="file" class="form-control mt-2" id="fotos" name="fotos[]" accept="image/*" multiple onchange="previewImagens(event)">
+        <small class="text-muted">Você pode selecionar até 5 imagens.</small>
+        <div id="preview-container" class="mt-3 d-flex flex-wrap gap-2"></div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+        <button type="submit" class="btn btn-primary"><i id="salvarIcon" class="fa-solid fa-floppy-disk"></i> Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('form');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+
+  function previewImagens(event) {
+    const container = document.getElementById('preview-container');
+    container.innerHTML = '';
+    const files = event.target.files;
+
+    if (files.length > 5) {
+      alert("Você pode selecionar no máximo 5 imagens.");
+      event.target.value = "";
+      return;
+    }
+
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'img-preview-wrapper position-relative';
+
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'img-thumbnail';
+        img.style.width = '120px';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.onclick = () => wrapper.remove();
+
+        wrapper.appendChild(img);
+        wrapper.appendChild(removeBtn);
+        container.appendChild(wrapper);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+</script>
+
+</body>
+</html>
